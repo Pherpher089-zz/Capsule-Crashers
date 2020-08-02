@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.Events;
 using UnityEngine;
 
-public class HealthManager : MonoBehaviour {
+public class HealthManager : MonoBehaviour
+{
 
     public int maxHealth = 5;
     public int health = 5;
     GameObject shotEffectPrefab;
     GameObject bleedingEffectPrefab;
     Collider col;
+    public UnityEvent m_onDeath;
 
     public void Awake()
     {
@@ -20,18 +21,23 @@ public class HealthManager : MonoBehaviour {
     public void Start()
     {
         health = maxHealth;
+        if (m_onDeath == null)
+        {
+            m_onDeath = new UnityEvent();
+        }
     }
 
     public void TakeDamage(int damage)
     {
 
         Instantiate(shotEffectPrefab, transform.position, transform.rotation);
-        Instantiate(bleedingEffectPrefab,transform.position,transform.rotation, transform);
+        Instantiate(bleedingEffectPrefab, transform.position, transform.rotation, transform);
         health -= damage;
 
         if (health < 0)
         {
             health = 0;
+            m_onDeath.Invoke();
         }
     }
 
