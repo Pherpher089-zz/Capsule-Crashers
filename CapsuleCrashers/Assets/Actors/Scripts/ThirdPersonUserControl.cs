@@ -1,6 +1,8 @@
 using UnityEngine;
 
+// To define what game pad controles which player
 public enum PlayerNumber { Player_1, Player_2, Player_3, Player_4 }
+
 [RequireComponent(typeof(ThirdPersonCharacter))]
 public class ThirdPersonUserControl : MonoBehaviour
 {
