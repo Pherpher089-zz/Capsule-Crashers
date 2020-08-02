@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LogMaterial : RawMaterial {
+[RequireComponent(typeof(HealthManager))]
+
+public class LogMaterial : RawMaterial
+{
 
     public GameObject yeildObj;
     int yeildQuantity = 3;
-
+    HealthManager healthManager;
     private void Start()
     {
+        healthManager = GetComponent<HealthManager>();
+        healthManager.m_onDeath.AddListener(Kill);
         matIndex = 2;
     }
 
@@ -20,6 +25,7 @@ public class LogMaterial : RawMaterial {
             Instantiate(yeildObj, transform.position + dropPos, transform.rotation, null);
             dropPos += -Vector3.forward;
         }
+        Destroy(this.gameObject);
     }
 
 
